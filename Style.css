@@ -1,736 +1,260 @@
-* {
-    box-sizing: border-box;
-}
+/* =========================
+   🎮 JOGO / QUIZ
+========================= */
 
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #ff007f, #7b2cff, #ff4d9d);
-    color: #4b2634;
-    overflow-x: hidden;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    width: 350px;
-    height: 350px;
-    background: #ff4f91;
-    filter: blur(130px);
-    opacity: 0.18;
-    top: -100px;
-    left: -100px;
-    pointer-events: none;
-}
-
-.coracoes-fundo {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.coracoes-fundo span {
-    position: absolute;
-    color: #ffffff;
-    opacity: 0.15;
-    font-size: 25px;
-    animation: flutuar 10s linear infinite;
-}
-
-.coracoes-fundo span:nth-child(1) { left: 5%; animation-delay: 0s; }
-.coracoes-fundo span:nth-child(2) { left: 20%; animation-delay: 2s; }
-.coracoes-fundo span:nth-child(3) { left: 35%; animation-delay: 4s; }
-.coracoes-fundo span:nth-child(4) { left: 50%; animation-delay: 1s; }
-.coracoes-fundo span:nth-child(5) { left: 65%; animation-delay: 5s; }
-.coracoes-fundo span:nth-child(6) { left: 78%; animation-delay: 3s; }
-.coracoes-fundo span:nth-child(7) { left: 88%; animation-delay: 6s; }
-.coracoes-fundo span:nth-child(8) { left: 95%; animation-delay: 2s; }
-
-@keyframes flutuar {
-    0% {
-        transform: translateY(110vh) rotate(0deg);
-    }
-
-    100% {
-        transform: translateY(-20vh) rotate(360deg);
-    }
-}
-
-
-/* TELA INICIAL */
-
-#inicio {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    background: linear-gradient(135deg, #8e1648, #e91e63, #ff5c96);
+.quiz-card {
     position: relative;
-    z-index: 2;
-}
-
-.inicio-card {
-    width: 100%;
-    max-width: 480px;
-    padding: 45px 28px;
+    margin: 35px auto;
+    padding: 35px 25px;
+    max-width: 850px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: 35px;
-    box-shadow: 0 25px 70px rgba(60, 0, 25, 0.35);
-    animation: aparecer 1s ease;
-}
 
-@keyframes aparecer {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.20),
+            rgba(255, 100, 190, 0.16)
+        );
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+    border: 2px solid rgba(255, 255, 255, 0.65);
+    border-radius: 32px;
 
-.coracao-grande {
-    font-size: 80px;
-    color: #e91e63;
-    text-shadow: 0 10px 30px rgba(233, 30, 99, 0.35);
-    animation: pulsar 1.5s infinite;
-}
-
-@keyframes pulsar {
-    0%, 100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.13);
-    }
-}
-
-.pequeno-texto,
-.subtitulo {
-    display: block;
-    font-size: 12px;
-    letter-spacing: 4px;
-    color: #b51650;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.inicio-card h1 {
-    color: #a8144d;
-    font-size: 38px;
-    line-height: 1.15;
-}
-
-.inicio-card h1 span {
-    display: block;
-    color: #e91e63;
-}
-
-.inicio-card p {
-    font-size: 18px;
-    line-height: 1.7;
-    color: #68404f;
-}
-
-button {
-    border: none;
-    background: linear-gradient(135deg, #b51650, #e91e63, #ff4f91);
     color: white;
-    padding: 16px 38px;
-    border-radius: 40px;
-    font-size: 17px;
+
+    box-shadow:
+        0 15px 40px rgba(100, 0, 100, 0.25),
+        inset 0 0 30px rgba(255, 255, 255, 0.08);
+
+    backdrop-filter: blur(14px);
+
+    overflow: hidden;
+}
+
+
+.quiz-card::before {
+    content: "♥";
+    position: absolute;
+
+    top: -25px;
+    right: 25px;
+
+    font-size: 90px;
+
+    opacity: 0.08;
+
+    transform: rotate(15deg);
+}
+
+
+.quiz-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    border: 2px solid rgba(255, 255, 255, 0.55);
+
+    font-size: 35px;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.quiz-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 12px;
+
     font-weight: bold;
+
+    letter-spacing: 2px;
+
+    opacity: 0.8;
+}
+
+
+.quiz-card h2 {
+    margin: 8px 0 15px;
+
+    font-size: 30px;
+}
+
+
+#quizProgresso {
+    margin: 10px 0;
+
+    font-size: 14px;
+
+    opacity: 0.8;
+}
+
+
+#quizPergunta {
+    margin: 25px auto;
+
+    max-width: 650px;
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    line-height: 1.5;
+}
+
+
+#quizOpcoes {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    max-width: 600px;
+
+    margin: 20px auto;
+}
+
+
+.quiz-opcao {
+    width: 100%;
+
+    padding: 15px 20px;
+
+    border: 2px solid rgba(255, 255, 255, 0.55);
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.14);
+
+    color: white;
+
+    font-size: 17px;
+
+    font-family: inherit;
+
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(181, 22, 80, 0.3);
-    transition: 0.3s;
+
+    transition:
+        transform 0.2s,
+        background 0.2s,
+        border-color 0.2s;
+
+    backdrop-filter: blur(8px);
 }
 
-button:hover {
+
+.quiz-opcao:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(181, 22, 80, 0.4);
+
+    background: rgba(255, 255, 255, 0.25);
+
+    border-color: white;
 }
 
-button:active {
+
+.quiz-opcao:active {
+    transform: scale(0.97);
+}
+
+
+#quizBotao {
+    margin-top: 15px;
+
+    padding: 14px 28px;
+
+    border: none;
+
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #b00072;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+
+#quizBotao:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.22);
+}
+
+
+#quizBotao:active {
     transform: scale(0.96);
 }
 
-.decoracao {
-    margin-top: 25px;
-    color: #e91e63;
-    opacity: 0.7;
-}
 
+#quizResultado {
+    margin: 20px auto;
 
-/* SITE PRINCIPAL */
+    max-width: 600px;
 
-#site {
-    display: none;
-    position: relative;
-    z-index: 1;
-}
+    font-size: 20px;
 
-header {
-    text-align: center;
-    padding: 70px 25px 60px;
-    color: white;
-    background: linear-gradient(135deg, #8b1745, #e91e63, #ff5b96);
-    border-radius: 0 0 50px 50px;
-    box-shadow: 0 15px 35px rgba(100, 0, 40, 0.2);
-}
-
-header .coracao-grande {
-    color: white;
-    font-size: 70px;
-}
-
-header .subtitulo {
-    color: white;
-}
-
-header h1 {
-    font-size: 42px;
-    margin: 15px 0;
-}
-
-header p {
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-.linha-coracao {
-    margin-top: 25px;
-    opacity: 0.8;
-}
-
-main {
-    max-width: 720px;
-    margin: auto;
-    padding: 30px 16px 50px;
-}
-
-
-/* BLOCOS NUMERADOS */
-
-.card {
-    background: linear-gradient(
-        135deg,
-        #ff1493,
-        #9b2cff,
-        #ff4d8d
-    );
-
-    margin: 28px 0;
-    padding: 35px 25px;
-    border-radius: 30px;
-    position: relative;
-
-    box-shadow:
-        0 15px 40px rgba(120, 0, 100, 0.30),
-        0 0 25px rgba(255, 20, 147, 0.15);
-
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: white;
-}
-
-.card h2 {
-    color: white;
-    font-size: 27px;
-}
-
-.card p {
-    line-height: 1.8;
-    font-size: 17px;
-    color: white;
-}
-
-.numero {
-    position: absolute;
-    right: 22px;
-    top: 18px;
-
-    color: white;
-    font-size: 15px;
     font-weight: bold;
 
-    background: rgba(255, 255, 255, 0.18);
-    padding: 8px 11px;
-    border-radius: 12px;
-
-    opacity: 1;
-
-    box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.15);
+    line-height: 1.5;
 }
 
 
-/* FRASE DE DESTAQUE */
-
-.frase {
-    text-align: center;
-    padding: 45px 30px;
-    margin: 35px 0;
-
-    background: linear-gradient(
-        135deg,
-        #a91450,
-        #e91e63,
-        #ff6099
-    );
-
-    color: white;
-    border-radius: 30px;
-
-    box-shadow:
-        0 15px 35px rgba(181, 22, 80, 0.25);
-}
-
-.frase div {
-    font-size: 55px;
-    line-height: 30px;
-    opacity: 0.7;
-}
-
-.frase p {
-    font-size: 21px;
-    line-height: 1.7;
-    font-style: italic;
-}
-
-.frase span {
-    font-size: 25px;
-}
-
-
-/* PEQUENAS COISAS */
-
-.qualidades {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 25px;
-}
-
-.qualidade {
-    padding: 20px;
-
-    background: rgba(255, 255, 255, 0.16);
-
-    border-radius: 20px;
-
-    border-left: 5px solid white;
-
-    backdrop-filter: blur(6px);
-
-    box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.qualidade span {
-    font-size: 28px;
-    color: white;
-}
-
-.qualidade h3 {
-    color: white;
-    margin: 8px 0;
-}
-
-.qualidade p {
-    margin: 0;
-    font-size: 15px;
-    color: white;
-}
-
-
-/* FRASES */
-
-.frase-box {
-    background: rgba(255, 255, 255, 0.15);
-
-    border-radius: 20px;
-
-    padding: 20px;
-    margin-top: 15px;
-
-    border-left: 4px solid white;
-
-    backdrop-filter: blur(5px);
-}
-
-.frase-box p {
-    margin: 0;
-    font-style: italic;
-    color: white;
-}
-
-
-/* LINHA DO TEMPO */
-
-.timeline {
-    margin-top: 25px;
-    position: relative;
-}
-
-.momento {
-    display: flex;
-    gap: 18px;
-    padding: 18px 0;
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.bolinha {
-    min-width: 42px;
-    height: 42px;
-
-    border-radius: 50%;
-
-    background: white;
-    color: #e91e63;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-.momento h3 {
-    margin: 0 0 6px;
-    color: white;
-}
-
-.momento p {
-    margin: 0;
-    font-size: 15px;
-}
-
-
-/* SURPRESA */
-
-.surpresa-card {
-    text-align: center;
-
-    margin: 35px 0;
-    padding: 45px 25px;
-
-    color: white;
-
-    border-radius: 30px;
-
-    background: linear-gradient(
-        135deg,
-        #751239,
-        #d4145a,
-        #f83d80
-    );
-
-    box-shadow:
-        0 15px 40px rgba(120, 10, 55, 0.25);
-}
-
-.surpresa-card h2 {
-    font-size: 30px;
-}
-
-.surpresa-card p {
-    line-height: 1.7;
-}
-
-.brilho {
-    font-size: 45px;
-    animation: girar 3s linear infinite;
-}
-
-@keyframes girar {
-    from {
-        transform: rotate(0);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.surpresa-card button {
-    background: white;
-    color: #c2185b;
-}
-
-#mensagem {
-    margin-top: 25px;
-    padding: 20px;
-
-    border-radius: 20px;
-
-    background: rgba(255, 255, 255, 0.15);
-
-    line-height: 1.7;
-    font-weight: bold;
-
-    min-height: 0;
-}
-
-
-/* GALERIA */
-
-.galeria {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 25px;
-}
-
-.foto {
-    min-height: 140px;
-
-    background: linear-gradient(
-        135deg,
-        #ffe0eb,
-        #ffd0df
-    );
-
-    border-radius: 20px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    color: #b51650;
-
-    transition: 0.3s;
-}
-
-.foto:hover {
-    transform: translateY(-5px);
-}
-
-.foto span {
-    font-size: 42px;
-}
-
-.foto p {
-    margin: 8px 0 0;
-    font-size: 14px;
-}
-
-
-/* FINAL */
-
-.final-card {
-    text-align: center;
-
-    margin: 35px 0;
-    padding: 45px 25px;
-
-    background: linear-gradient(
-        135deg,
-        #ffffff,
-        #ffe8f2
-    );
-
-    border-radius: 30px;
-
-    box-shadow:
-        0 12px 35px rgba(120, 20, 60, 0.15);
-}
-
-.coracao-final {
-    color: #e91e63;
-    font-size: 55px;
-    animation: pulsar 1.5s infinite;
-}
-
-.final-card h2 {
-    color: #b51650;
-    font-size: 30px;
-}
-
-.final-card p {
-    line-height: 1.8;
-    font-size: 17px;
-}
-
-.final-card strong {
-    display: block;
-
-    margin-top: 25px;
-
-    color: #c2185b;
-
-    font-size: 18px;
-}
-
-.final-decoracao {
-    margin-top: 25px;
-    color: #e91e63;
-}
-
-
-/* RODAPÉ */
-
-footer {
-    text-align: center;
-    padding: 40px 20px;
-    color: white;
-}
-
-footer div {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-footer small {
-    display: block;
-    margin-top: 10px;
-    opacity: 0.8;
-}
-
-
-/* CELULAR */
+/* =========================
+   CELULAR
+========================= */
 
 @media (max-width: 500px) {
 
-    .inicio-card h1 {
-        font-size: 32px;
+    .quiz-card {
+        margin: 25px 10px;
+        padding: 28px 18px;
+
+        border-radius: 25px;
     }
 
-    header h1 {
-        font-size: 34px;
+
+    .quiz-card h2 {
+        font-size: 25px;
     }
 
-    .card {
-        padding: 30px 20px;
+
+    #quizPergunta {
+        font-size: 18px;
     }
 
-    .galeria {
-        grid-template-columns: 1fr;
+
+    .quiz-opcao {
+        font-size: 15px;
+
+        padding: 14px 12px;
     }
 
-    .foto {
-        min-height: 110px;
+
+    #quizResultado {
+        font-size: 18px;
     }
-}
-/* CAIXINHA DE MENSAGEM */
-#mensagemMaysa {
-    width: 100%;
-    min-height: 160px;
-    margin: 20px 0;
-    padding: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(10px);
-    color: white;
-    font-family: Arial, sans-serif;
-    font-size: 17px;
-    line-height: 1.6;
-    resize: vertical;
-    outline: none;
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.15),
-        inset 0 0 20px rgba(255, 255, 255, 0.08);
-    transition: 0.3s;
-}
 
-#mensagemMaysa:focus {
-    border-color: white;
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow:
-        0 0 0 4px rgba(255, 255, 255, 0.15),
-        0 15px 35px rgba(0, 0, 0, 0.18);
-    transform: translateY(-2px);
-}
-
-#mensagemMaysa::placeholder {
-    color: rgba(255, 255, 255, 0.85);
-    font-style: italic;
-}
-/* MENSAGEM ENVIADA - ESTILO ROMÂNTICO */
-.mensagem-enviada {
-    position: relative;
-    margin: 18px 0;
-    padding: 22px 20px;
-    min-height: 130px;
-
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.22),
-        rgba(255, 120, 210, 0.18)
-    );
-
-    border: 2px solid rgba(255, 255, 255, 0.65);
-    border-radius: 28px;
-
-    color: white;
-    text-align: left;
-
-    box-shadow:
-        0 10px 30px rgba(120, 0, 100, 0.25),
-        inset 0 0 25px rgba(255, 255, 255, 0.08);
-
-    backdrop-filter: blur(12px);
-    overflow: hidden;
-}
-
-.mensagem-cabecalho {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-.mensagem-coracao {
-    width: 48px;
-    height: 48px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-
-    font-size: 25px;
-}
-
-.mensagem-nome {
-    font-size: 19px;
-    font-weight: bold;
-}
-
-.mensagem-hora {
-    font-size: 14px;
-    opacity: 0.8;
-    margin-top: 3px;
-}
-
-.mensagem-texto {
-    font-size: 20px;
-    line-height: 1.5;
-    word-break: break-word;
-    padding-right: 10px;
-}
-
-.mensagem-enviada::after {
-    content: "♡  ♡";
-    position: absolute;
-    right: 18px;
-    bottom: 12px;
-    font-size: 25px;
-    opacity: 0.65;
 }
