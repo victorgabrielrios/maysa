@@ -1,25 +1,27 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+// ===============================
+// FIREBASE
+// ===============================
 
-import {
-    getFirestore,
-    collection,
-    addDoc,
-    onSnapshot,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 
 import {
     getAuth,
     signInAnonymously
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-/* =========================
-   FIREBASE
-========================= */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCH643YK8iRy24JS2mBnlb_dc9Y83JSTsQ",
+    apiKey: "AIzaSyCH643YK8iRy24JS2mBnlb_dc9Y83JSTq",
     authDomain: "site-romantico-663fb.firebaseapp.com",
     projectId: "site-romantico-663fb",
     storageBucket: "site-romantico-663fb.firebasestorage.app",
@@ -27,320 +29,230 @@ const firebaseConfig = {
     appId: "1:768746563580:web:a61ab53f59f8214aa97479"
 };
 
+
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 
-/* =========================
-   LOGIN ANÔNIMO
-========================= */
+// ===============================
+// LOGIN ANÔNIMO
+// ===============================
 
 signInAnonymously(auth)
     .then(() => {
-
-        console.log("Firebase conectado.");
-
         carregarMensagens();
-
     })
     .catch((erro) => {
-
-        console.error("Erro na autenticação:", erro);
-
-        const status = document.getElementById("statusMensagem");
-
-        if (status) {
-            status.textContent =
-                "Não foi possível conectar ao Firebase.";
-        }
-
+        console.error("Erro no login:", erro);
     });
 
 
-/* =========================
-   SURPRESA
-========================= */
+// ===============================
+// SURPRESA
+// ===============================
 
 function mostrarMensagem() {
 
-    const mensagem =
-        document.getElementById("mensagem");
+    const mensagem = document.getElementById("mensagem");
 
     if (!mensagem) return;
 
     mensagem.innerHTML = `
-        <p>
-            Maysa, talvez você não saiba, mas existem
-            momentos simples que acabam ficando
-            guardados de um jeito especial.
-        </p>
-
-        <p>
-            Esse pequeno cantinho foi feito para
-            guardar um pouco dessas lembranças
-            e mostrar o carinho por trás delas. ♥
-        </p>
-
-        <p>
-            Espero que você goste da surpresa. ✨
-        </p>
+        <div class="frase-box">
+            <p>
+                Às vezes, as melhores surpresas são
+                aquelas que aparecem quando menos esperamos. ♥
+            </p>
+        </div>
     `;
-
-    mensagem.style.display = "block";
 }
 
 
-/* =========================
-   ENVIAR MENSAGEM
-========================= */
+// ===============================
+// ENVIAR MENSAGEM
+// ===============================
 
 async function enviarMensagem() {
 
-    const campo =
-        document.getElementById("mensagemMaysa");
-
-    const status =
-        document.getElementById("statusMensagem");
+    const campo = document.getElementById("mensagemMaysa");
+    const status = document.getElementById("statusMensagem");
 
     if (!campo || !status) return;
 
     const texto = campo.value.trim();
 
-    if (texto === "") {
-
-        status.textContent =
-            "Escreva uma mensagem primeiro. ♥";
-
+    if (!texto) {
+        status.textContent = "Escreva uma mensagem primeiro.";
         return;
     }
 
-    status.textContent = "Enviando...";
-
     try {
 
-        await addDoc(
-            collection(db, "messages"),
-            {
-                text: texto,
-                createdAt: serverTimestamp()
-            }
-        );
+        await addDoc(collection(db, "messages"), {
+            text: texto,
+            createdAt: serverTimestamp()
+        });
 
         campo.value = "";
 
+        status.textContent = "Mensagem enviada ♥";
+
+        carregarMensagens();
+
+    } catch (erro) {
+
+        console.error(erro);
+
         status.textContent =
-            "Mensagem enviada. ♥";
+            "Não foi possível enviar a mensagem.";
 
-        setTimeout(() => {
+    }
+}
 
-            status.textContent = "";
 
-        }, 3000);
+// ===============================
+// CARREGAR MENSAGENS
+// ===============================
+
+async function carregarMensagens() {
+
+    const lista = document.getElementById("listaMensagens");
+
+    if (!lista) return;
+
+    try {
+
+        const q = query(
+            collection(db, "messages"),
+            orderBy("createdAt", "desc")
+        );
+
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+
+            lista.innerHTML =
+                "Nenhuma mensagem ainda.";
+
+            return;
+        }
+
+        lista.innerHTML = "";
+
+        snapshot.forEach((doc) => {
+
+            const dados = doc.data();
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "mensagem-enviada";
+
+            card.innerHTML = `
+                <div class="mensagem-cabecalho">
+
+                    <div class="mensagem-coracao">
+                        ♥
+                    </div>
+
+                    <div>
+                        <div class="mensagem-nome">
+                            Você
+                        </div>
+
+                        <div class="mensagem-hora">
+                            Mensagem enviada
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mensagem-texto">
+                    ${escapeHTML(dados.text || "")}
+                </div>
+            `;
+
+            lista.appendChild(card);
+
+        });
 
     } catch (erro) {
 
         console.error(
-            "Erro ao enviar mensagem:",
+            "Erro ao carregar mensagens:",
             erro
         );
 
-        status.textContent =
-            "Não foi possível enviar a mensagem.";
+        lista.innerHTML =
+            "Não foi possível carregar as mensagens.";
     }
 }
 
 
-/* =========================
-   CARREGAR MENSAGENS
-========================= */
+// Evita que HTML seja executado dentro das mensagens
+function escapeHTML(texto) {
 
-function carregarMensagens() {
+    const div =
+        document.createElement("div");
 
-    const lista =
-        document.getElementById("listaMensagens");
+    div.textContent = texto;
 
-    if (!lista) return;
-
-    const mensagensRef =
-        collection(db, "messages");
-
-    onSnapshot(
-        mensagensRef,
-
-        (snapshot) => {
-
-            lista.innerHTML = "";
-
-            if (snapshot.empty) {
-
-                lista.textContent =
-                    "Nenhuma mensagem ainda.";
-
-                return;
-            }
-
-            const mensagens = [];
-
-            snapshot.forEach((doc) => {
-
-                const dados = doc.data();
-
-                mensagens.push({
-                    id: doc.id,
-                    text: dados.text || "",
-                    createdAt: dados.createdAt
-                });
-
-            });
-
-
-            mensagens.sort((a, b) => {
-
-                const tempoA =
-                    a.createdAt?.toMillis?.() || 0;
-
-                const tempoB =
-                    b.createdAt?.toMillis?.() || 0;
-
-                return tempoB - tempoA;
-
-            });
-
-
-            mensagens.forEach((item) => {
-
-                const div =
-                    document.createElement("div");
-
-                div.className =
-                    "mensagem-enviada";
-
-
-                const cabecalho =
-                    document.createElement("div");
-
-                cabecalho.className =
-                    "mensagem-cabecalho";
-
-
-                const coracao =
-                    document.createElement("div");
-
-                coracao.className =
-                    "mensagem-coracao";
-
-                coracao.textContent = "♥";
-
-
-                const informacoes =
-                    document.createElement("div");
-
-
-                const nome =
-                    document.createElement("div");
-
-                nome.className =
-                    "mensagem-nome";
-
-                nome.textContent = "Você";
-
-
-                const hora =
-                    document.createElement("div");
-
-                hora.className =
-                    "mensagem-hora";
-
-                hora.textContent =
-                    "Mensagem enviada";
-
-
-                informacoes.appendChild(nome);
-                informacoes.appendChild(hora);
-
-
-                cabecalho.appendChild(coracao);
-                cabecalho.appendChild(informacoes);
-
-
-                const texto =
-                    document.createElement("div");
-
-                texto.className =
-                    "mensagem-texto";
-
-                texto.textContent =
-                    item.text;
-
-
-                div.appendChild(cabecalho);
-                div.appendChild(texto);
-
-                lista.appendChild(div);
-
-            });
-
-        },
-
-        (erro) => {
-
-            console.error(
-                "Erro ao carregar mensagens:",
-                erro
-            );
-
-            lista.textContent =
-                "Não foi possível carregar as mensagens.";
-
-        }
-    );
+    return div.innerHTML;
 }
 
 
-/* =========================
-   🎮 JOGO
-========================= */
+// Disponibiliza as funções para o HTML
+window.enviarMensagem = enviarMensagem;
+window.mostrarMensagem = mostrarMensagem;
 
-const perguntasQuiz = [
+
+// ======================================================
+// ======================= JOGO ==========================
+// ======================================================
+
+
+// 10 perguntas de lógica, pegadinhas e raciocínio
+const perguntasJogo = [
 
     {
         pergunta:
-            "Qual é o nome da pessoa para quem este cantinho foi feito?",
+            "Você ultrapassa o segundo colocado em uma corrida. Em qual posição você fica?",
 
         opcoes: [
-            "Maysa",
-            "Mariana",
-            "Maria",
-            "Manuela"
+            "Primeiro",
+            "Segundo",
+            "Terceiro",
+            "Quarto"
         ],
 
-        correta: 0
+        correta: 1
     },
 
     {
         pergunta:
-            "Qual símbolo aparece bastante neste site?",
+            "Um relógio marca 3:15. Qual é aproximadamente o menor ângulo entre os ponteiros?",
 
         opcoes: [
-            "♥ Coração",
-            "☀ Sol",
-            "★ Estrela",
-            "☁ Nuvem"
+            "0°",
+            "7,5°",
+            "15°",
+            "30°"
         ],
 
-        correta: 0
+        correta: 1
     },
 
     {
         pergunta:
-            "Quantas partes numeradas existem no site?",
+            "Qual número completa a sequência? 2, 6, 12, 20, 30, ?",
 
         opcoes: [
-            "3",
-            "4",
-            "5",
-            "8"
+            "36",
+            "40",
+            "42",
+            "44"
         ],
 
         correta: 2
@@ -348,13 +260,41 @@ const perguntasQuiz = [
 
     {
         pergunta:
-            "O que pode ser deixado no espaço especial de mensagens?",
+            "Um pai tem 40 anos e seu filho tem 10. Daqui a quantos anos o pai terá exatamente o dobro da idade do filho?",
 
         opcoes: [
-            "Uma mensagem",
-            "Uma senha",
-            "Um endereço",
-            "Nada"
+            "10",
+            "15",
+            "20",
+            "30"
+        ],
+
+        correta: 2
+    },
+
+    {
+        pergunta:
+            "Você tem 3 interruptores fora de uma sala e apenas uma lâmpada dentro. Só pode entrar na sala uma vez. Como descobrir qual interruptor acende a lâmpada?",
+
+        opcoes: [
+            "Ligar os três ao mesmo tempo",
+            "Ligar um, esperar, desligar e ligar outro; verificar luz e temperatura",
+            "Entrar várias vezes",
+            "Não é possível descobrir"
+        ],
+
+        correta: 1
+    },
+
+    {
+        pergunta:
+            "Um número de dois dígitos tem soma dos algarismos igual a 9. Ao inverter os algarismos, o número aumenta 27. Qual é o número original?",
+
+        opcoes: [
+            "36",
+            "45",
+            "54",
+            "63"
         ],
 
         correta: 0
@@ -362,13 +302,55 @@ const perguntasQuiz = [
 
     {
         pergunta:
-            "Qual é a ideia principal deste cantinho?",
+            "Há 5 máquinas que produzem 5 peças em 5 minutos. Mantendo o mesmo ritmo, quanto tempo 100 máquinas levam para produzir 100 peças?",
 
         opcoes: [
-            "Guardar palavras e momentos especiais",
-            "Ensinar matemática",
-            "Vender produtos",
-            "Mostrar notícias"
+            "5 minutos",
+            "20 minutos",
+            "100 minutos",
+            "500 minutos"
+        ],
+
+        correta: 0
+    },
+
+    {
+        pergunta:
+            "Qual número vem a seguir? 1, 11, 21, 1211, 111221, ?",
+
+        opcoes: [
+            "312211",
+            "212211",
+            "111222",
+            "311221"
+        ],
+
+        correta: 0
+    },
+
+    {
+        pergunta:
+            "Você possui duas cordas. Cada uma leva exatamente 1 hora para queimar, mas queima de maneira irregular. Como medir exatamente 45 minutos?",
+
+        opcoes: [
+            "Acender uma ponta de cada corda",
+            "Acender as duas pontas de uma corda e uma ponta da outra; quando a primeira acabar, acender a segunda ponta da outra",
+            "Acender apenas uma ponta",
+            "Não é possível"
+        ],
+
+        correta: 1
+    },
+
+    {
+        pergunta:
+            "Um fazendeiro precisa atravessar um rio com uma raposa, uma galinha e um saco de milho. Ele só pode levar um deles por vez. Qual deve ser a ordem correta?",
+
+        opcoes: [
+            "Galinha → raposa → milho",
+            "Raposa → galinha → milho",
+            "Galinha → milho → raposa",
+            "Milho → raposa → galinha"
         ],
 
         correta: 0
@@ -377,69 +359,89 @@ const perguntasQuiz = [
 ];
 
 
+// ===============================
+// VARIÁVEIS DO JOGO
+// ===============================
+
 let perguntaAtual = 0;
-let pontosQuiz = 0;
+let pontos = 0;
+let vidas = 3;
+let jogoComecou = false;
 
 
-/* INICIAR */
+// ===============================
+// ELEMENTOS
+// ===============================
+
+const quizBotao =
+    document.getElementById("quizBotao");
+
+const quizPergunta =
+    document.getElementById("quizPergunta");
+
+const quizOpcoes =
+    document.getElementById("quizOpcoes");
+
+const quizResultado =
+    document.getElementById("quizResultado");
+
+const quizProgresso =
+    document.getElementById("quizProgresso");
+
+
+// ===============================
+// COMEÇAR
+// ===============================
 
 function iniciarQuiz() {
 
     perguntaAtual = 0;
-    pontosQuiz = 0;
+    pontos = 0;
+    vidas = 3;
 
-    const botao =
-        document.getElementById("quizBotao");
+    jogoComecou = true;
 
-    const resultado =
-        document.getElementById("quizResultado");
+    quizResultado.textContent = "";
 
-    if (botao) {
-        botao.style.display = "none";
-    }
+    quizBotao.textContent =
+        "Recomeçar jogo";
 
-    if (resultado) {
-        resultado.textContent = "";
-    }
+    mostrarPergunta();
 
-    mostrarPerguntaQuiz();
 }
 
 
-/* MOSTRAR PERGUNTA */
+// ===============================
+// MOSTRAR PERGUNTA
+// ===============================
 
-function mostrarPerguntaQuiz() {
+function mostrarPergunta() {
 
-    const pergunta =
-        perguntasQuiz[perguntaAtual];
+    if (perguntaAtual >= perguntasJogo.length) {
 
-    const perguntaElemento =
-        document.getElementById("quizPergunta");
-
-    const opcoesElemento =
-        document.getElementById("quizOpcoes");
-
-    const progresso =
-        document.getElementById("quizProgresso");
-
-
-    if (!perguntaElemento ||
-        !opcoesElemento ||
-        !progresso) {
+        finalizarJogo();
 
         return;
     }
 
 
-    progresso.textContent =
-        `Pergunta ${perguntaAtual + 1} de ${perguntasQuiz.length}`;
+    const pergunta =
+        perguntasJogo[perguntaAtual];
 
 
-    perguntaElemento.textContent =
+    quizProgresso.innerHTML =
+        `Pergunta ${perguntaAtual + 1} de ${perguntasJogo.length}
+        <br>
+        ❤️ Vidas: ${"♥".repeat(vidas)}${"♡".repeat(3 - vidas)}
+        <br>
+        ⭐ Pontos: ${pontos}`;
+
+
+    quizPergunta.textContent =
         pergunta.pergunta;
 
 
-    opcoesElemento.innerHTML = "";
+    quizOpcoes.innerHTML = "";
 
 
     pergunta.opcoes.forEach(
@@ -455,136 +457,158 @@ function mostrarPerguntaQuiz() {
                 opcao;
 
 
-            botao.addEventListener(
-                "click",
-                () => {
-
-                    responderQuiz(indice);
-
-                }
-            );
+            botao.onclick = () =>
+                responder(indice);
 
 
-            opcoesElemento.appendChild(botao);
+            quizOpcoes.appendChild(botao);
 
         }
     );
 }
 
 
-/* RESPONDER */
+// ===============================
+// RESPONDER
+// ===============================
 
-function responderQuiz(indice) {
+function responder(indice) {
 
     const pergunta =
-        perguntasQuiz[perguntaAtual];
+        perguntasJogo[perguntaAtual];
+
+
+    const botoes =
+        document.querySelectorAll(".quiz-opcao");
+
+
+    botoes.forEach(
+        botao => botao.disabled = true
+    );
 
 
     if (indice === pergunta.correta) {
 
-        pontosQuiz++;
+        pontos++;
 
-    }
+        botoes[indice].classList.add(
+            "correta"
+        );
 
-
-    perguntaAtual++;
-
-
-    if (
-        perguntaAtual <
-        perguntasQuiz.length
-    ) {
-
-        mostrarPerguntaQuiz();
+        quizResultado.textContent =
+            "✓ Acertou!";
 
     } else {
 
-        finalizarQuiz();
+        vidas--;
 
-    }
-}
+        botoes[indice].classList.add(
+            "errada"
+        );
 
+        botoes[pergunta.correta].classList.add(
+            "correta"
+        );
 
-/* FINAL */
-
-function finalizarQuiz() {
-
-    const perguntaElemento =
-        document.getElementById("quizPergunta");
-
-    const opcoesElemento =
-        document.getElementById("quizOpcoes");
-
-    const progresso =
-        document.getElementById("quizProgresso");
-
-    const resultado =
-        document.getElementById("quizResultado");
-
-    const botao =
-        document.getElementById("quizBotao");
-
-
-    opcoesElemento.innerHTML = "";
-
-
-    progresso.textContent =
-        "Fim do jogo ♥";
-
-
-    perguntaElemento.textContent =
-        "Você chegou ao final!";
-
-
-    if (pontosQuiz === 5) {
-
-        resultado.textContent =
-            "💖 5/5! Você conhece muito bem este cantinho!";
-
-    } else if (pontosQuiz >= 3) {
-
-        resultado.textContent =
-            `💕 ${pontosQuiz}/5! Você foi muito bem!`;
-
-    } else {
-
-        resultado.textContent =
-            `♥ ${pontosQuiz}/5! Valeu pela tentativa!`;
+        quizResultado.textContent =
+            "✕ Errou!";
 
     }
 
 
-    botao.textContent =
-        "Jogar novamente ♥";
+    setTimeout(() => {
 
-    botao.style.display =
-        "inline-block";
+        quizResultado.textContent = "";
+
+        if (vidas <= 0) {
+
+            finalizarJogo();
+
+        } else {
+
+            perguntaAtual++;
+
+            mostrarPergunta();
+
+        }
+
+    }, 1200);
+
 }
 
 
-/* =========================
-   BOTÃO DO JOGO
-========================= */
+// ===============================
+// FINAL
+// ===============================
 
-const botaoQuiz =
-    document.getElementById("quizBotao");
+function finalizarJogo() {
 
-if (botaoQuiz) {
+    jogoComecou = false;
 
-    botaoQuiz.addEventListener(
+    quizOpcoes.innerHTML = "";
+
+    quizProgresso.innerHTML =
+        "🏁 Fim do jogo";
+
+
+    quizPergunta.innerHTML = `
+        Você fez <strong>${pontos}</strong>
+        ponto(s) de ${perguntasJogo.length}.
+        <br><br>
+        ${mensagemFinal()}
+    `;
+
+
+    quizResultado.textContent = "";
+
+    quizBotao.textContent =
+        "Jogar novamente";
+}
+
+
+// ===============================
+// MENSAGEM FINAL
+// ===============================
+
+function mensagemFinal() {
+
+    if (pontos === 10) {
+
+        return "🧠 INSANO! Você acertou tudo!";
+
+    }
+
+    if (pontos >= 8) {
+
+        return "🔥 Muito difícil e você foi excelente!";
+
+    }
+
+    if (pontos >= 6) {
+
+        return "🧩 Mandou bem! Mas algumas pegadinhas te pegaram.";
+
+    }
+
+    if (pontos >= 4) {
+
+        return "👀 Nada mal... mas ainda dá para melhorar.";
+
+    }
+
+    return "😈 As pegadinhas venceram dessa vez!";
+}
+
+
+// ===============================
+// BOTÃO DO JOGO
+// ===============================
+
+if (quizBotao) {
+
+    quizBotao.addEventListener(
         "click",
         iniciarQuiz
     );
 
 }
-
-
-/* =========================
-   DEIXAR FUNÇÕES DISPONÍVEIS
-========================= */
-
-window.enviarMensagem =
-    enviarMensagem;
-
-window.mostrarMensagem =
-    mostrarMensagem;
