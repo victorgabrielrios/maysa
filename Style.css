@@ -659,3 +659,78 @@ footer small {
     color: rgba(255, 255, 255, 0.85);
     font-style: italic;
 }
+/* MENSAGEM ENVIADA - ESTILO ROMÂNTICO */
+.mensagem-enviada {
+    position: relative;
+    margin: 18px 0;
+    padding: 22px 20px;
+    min-height: 130px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.22),
+        rgba(255, 120, 210, 0.18)
+    );
+
+    border: 2px solid rgba(255, 255, 255, 0.65);
+    border-radius: 28px;
+
+    color: white;
+    text-align: left;
+
+    box-shadow:
+        0 10px 30px rgba(120, 0, 100, 0.25),
+        inset 0 0 25px rgba(255, 255, 255, 0.08);
+
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+}
+
+.mensagem-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.mensagem-coracao {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+
+    font-size: 25px;
+}
+
+.mensagem-nome {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.mensagem-hora {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 3px;
+}
+
+.mensagem-texto {
+    font-size: 20px;
+    line-height: 1.5;
+    word-break: break-word;
+    padding-right: 10px;
+}
+
+.mensagem-enviada::after {
+    content: "♡  ♡";
+    position: absolute;
+    right: 18px;
+    bottom: 12px;
+    font-size: 25px;
+    opacity: 0.65;
+}
