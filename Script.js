@@ -681,3 +681,54 @@ if (quizBotao) {
     );
 
 }
+// ===============================
+// MODO NOTURNO
+// ===============================
+
+const botaoNoturno =
+    document.getElementById("botaoNoturno");
+
+
+// Verifica se o usuário já tinha escolhido o modo noturno
+if (localStorage.getItem("modoNoturno") === "ativado") {
+
+    document.body.classList.add("modo-noturno");
+
+    botaoNoturno.textContent = "☀️";
+
+}
+
+
+// Ativar / desativar modo noturno
+if (botaoNoturno) {
+
+    botaoNoturno.addEventListener("click", () => {
+
+        document.body.classList.toggle("modo-noturno");
+
+
+        if (
+            document.body.classList.contains("modo-noturno")
+        ) {
+
+            botaoNoturno.textContent = "☀️";
+
+            localStorage.setItem(
+                "modoNoturno",
+                "ativado"
+            );
+
+        } else {
+
+            botaoNoturno.textContent = "🌙";
+
+            localStorage.setItem(
+                "modoNoturno",
+                "desativado"
+            );
+
+        }
+
+    });
+
+}
