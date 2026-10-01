@@ -6,7 +6,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebas
 
 import {
     getAuth,
-    signInAnonymously
+    signInAnonymously,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 import {
@@ -39,13 +40,36 @@ const db = getFirestore(app);
 // LOGIN ANÔNIMO
 // ===============================
 
+let usuarioLogado = false;
+
 signInAnonymously(auth)
-    .then(() => {
-        carregarMensagens();
-    })
     .catch((erro) => {
         console.error("Erro no login:", erro);
+
+        const status = document.getElementById("statusMensagem");
+
+        if (status) {
+            status.textContent =
+                "Não foi possível conectar ao sistema de mensagens.";
+        }
     });
+
+
+onAuthStateChanged(auth, (usuario) => {
+
+    if (usuario) {
+
+        usuarioLogado = true;
+
+        carregarMensagens();
+
+    } else {
+
+        usuarioLogado = false;
+
+    }
+
+});
 
 
 // ===============================
@@ -54,39 +78,74 @@ signInAnonymously(auth)
 
 async function enviarMensagem() {
 
-    const campo = document.getElementById("mensagemMaysa");
-    const status = document.getElementById("statusMensagem");
+    const campo =
+        document.getElementById("mensagemMaysa");
+
+    const status =
+        document.getElementById("statusMensagem");
 
     if (!campo || !status) return;
 
-    const texto = campo.value.trim();
+    const texto =
+        campo.value.trim();
+
 
     if (!texto) {
-        status.textContent = "Escreva uma mensagem primeiro.";
+
+        status.textContent =
+            "Escreva uma mensagem primeiro.";
+
         return;
     }
 
+
+    if (!usuarioLogado) {
+
+        status.textContent =
+            "Aguarde um momento e tente novamente.";
+
+        return;
+    }
+
+
     try {
 
-        await addDoc(collection(db, "messages"), {
-            text: texto,
-            createdAt: serverTimestamp()
-        });
+        status.textContent =
+            "Enviando...";
+
+
+        await addDoc(
+            collection(db, "messages"),
+            {
+                text: texto,
+                createdAt: serverTimestamp()
+            }
+        );
+
 
         campo.value = "";
 
-        status.textContent = "Mensagem enviada ♥";
 
-        carregarMensagens();
+        status.textContent =
+            "Mensagem enviada ♥";
+
+
+        await carregarMensagens();
+
 
     } catch (erro) {
 
-        console.error(erro);
+        console.error(
+            "Erro ao enviar mensagem:",
+            erro
+        );
+
 
         status.textContent =
             "Não foi possível enviar a mensagem.";
 
     }
+
 }
 
 
@@ -96,18 +155,24 @@ async function enviarMensagem() {
 
 async function carregarMensagens() {
 
-    const lista = document.getElementById("listaMensagens");
+    const lista =
+        document.getElementById("listaMensagens");
 
     if (!lista) return;
 
+
     try {
 
-        const q = query(
-            collection(db, "messages"),
-            orderBy("createdAt", "desc")
-        );
+        const q =
+            query(
+                collection(db, "messages"),
+                orderBy("createdAt", "desc")
+            );
 
-        const snapshot = await getDocs(q);
+
+        const snapshot =
+            await getDocs(q);
+
 
         if (snapshot.empty) {
 
@@ -117,17 +182,23 @@ async function carregarMensagens() {
             return;
         }
 
+
         lista.innerHTML = "";
+
 
         snapshot.forEach((doc) => {
 
-            const dados = doc.data();
+            const dados =
+                doc.data();
+
 
             const card =
                 document.createElement("div");
 
+
             card.className =
                 "mensagem-enviada";
+
 
             card.innerHTML = `
                 <div class="mensagem-cabecalho">
@@ -137,6 +208,7 @@ async function carregarMensagens() {
                     </div>
 
                     <div>
+
                         <div class="mensagem-nome">
                             Você
                         </div>
@@ -144,6 +216,7 @@ async function carregarMensagens() {
                         <div class="mensagem-hora">
                             Mensagem enviada
                         </div>
+
                     </div>
 
                 </div>
@@ -153,9 +226,11 @@ async function carregarMensagens() {
                 </div>
             `;
 
+
             lista.appendChild(card);
 
         });
+
 
     } catch (erro) {
 
@@ -164,9 +239,12 @@ async function carregarMensagens() {
             erro
         );
 
+
         lista.innerHTML =
             "Não foi possível carregar as mensagens.";
+
     }
+
 }
 
 
@@ -176,14 +254,19 @@ function escapeHTML(texto) {
     const div =
         document.createElement("div");
 
-    div.textContent = texto;
+
+    div.textContent =
+        texto;
+
 
     return div.innerHTML;
+
 }
 
 
 // Disponibiliza a função para o HTML
-window.enviarMensagem = enviarMensagem;
+window.enviarMensagem =
+    enviarMensagem;
 
 
 // ======================================================
