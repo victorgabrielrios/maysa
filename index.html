@@ -291,7 +291,19 @@
                     esperando por você.
                 </p>
 
-                <button onclick="mostrarMensagem()">
+                <!-- BOTÃO CORRIGIDO -->
+
+                <button onclick="
+                    document.getElementById('mensagem').innerHTML = `
+                        <div class='frase-box'>
+                            <p>
+                                Às vezes, as melhores surpresas
+                                são aquelas que aparecem quando
+                                menos esperamos. ♥
+                            </p>
+                        </div>
+                    `;
+                ">
                     Descobrir ♥
                 </button>
 
@@ -388,7 +400,7 @@
                 </span>
 
                 <h2>
-                                           💗
+                    💗
                 </h2>
 
                 <p id="quizProgresso">
