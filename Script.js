@@ -70,6 +70,23 @@ function mostrarMensagem() {
 
 
 // ===============================
+// BOTÃO DA SURPRESA
+// ===============================
+
+const botaoSurpresa =
+    document.getElementById("botaoSurpresa");
+
+if (botaoSurpresa) {
+
+    botaoSurpresa.addEventListener(
+        "click",
+        mostrarMensagem
+    );
+
+}
+
+
+// ===============================
 // ENVIAR MENSAGEM
 // ===============================
 
@@ -117,7 +134,8 @@ async function enviarMensagem() {
 
 async function carregarMensagens() {
 
-    const lista = document.getElementById("listaMensagens");
+    const lista =
+        document.getElementById("listaMensagens");
 
     if (!lista) return;
 
@@ -191,7 +209,10 @@ async function carregarMensagens() {
 }
 
 
-// Evita que HTML seja executado dentro das mensagens
+// ===============================
+// PROTEÇÃO DAS MENSAGENS
+// ===============================
+
 function escapeHTML(texto) {
 
     const div =
@@ -203,17 +224,21 @@ function escapeHTML(texto) {
 }
 
 
-// Disponibiliza as funções para o HTML
-window.enviarMensagem = enviarMensagem;
-window.mostrarMensagem = mostrarMensagem;
+// ===============================
+// FUNÇÕES DISPONÍVEIS NO HTML
+// ===============================
+
+window.enviarMensagem =
+    enviarMensagem;
+
+window.mostrarMensagem =
+    mostrarMensagem;
 
 
 // ======================================================
 // ======================= JOGO ==========================
 // ======================================================
 
-
-// 10 perguntas de lógica, pegadinhas e raciocínio
 const perguntasJogo = [
 
     {
@@ -370,7 +395,7 @@ let jogoComecou = false;
 
 
 // ===============================
-// ELEMENTOS
+// ELEMENTOS DO JOGO
 // ===============================
 
 const quizBotao =
@@ -407,7 +432,6 @@ function iniciarQuiz() {
         "Recomeçar jogo";
 
     mostrarPergunta();
-
 }
 
 
@@ -424,10 +448,8 @@ function mostrarPergunta() {
         return;
     }
 
-
     const pergunta =
         perguntasJogo[perguntaAtual];
-
 
     quizProgresso.innerHTML =
         `Pergunta ${perguntaAtual + 1} de ${perguntasJogo.length}
@@ -436,13 +458,10 @@ function mostrarPergunta() {
         <br>
         ⭐ Pontos: ${pontos}`;
 
-
     quizPergunta.textContent =
         pergunta.pergunta;
 
-
     quizOpcoes.innerHTML = "";
-
 
     pergunta.opcoes.forEach(
         (opcao, indice) => {
@@ -456,10 +475,8 @@ function mostrarPergunta() {
             botao.textContent =
                 opcao;
 
-
             botao.onclick = () =>
                 responder(indice);
-
 
             quizOpcoes.appendChild(botao);
 
@@ -477,15 +494,12 @@ function responder(indice) {
     const pergunta =
         perguntasJogo[perguntaAtual];
 
-
     const botoes =
         document.querySelectorAll(".quiz-opcao");
-
 
     botoes.forEach(
         botao => botao.disabled = true
     );
-
 
     if (indice === pergunta.correta) {
 
@@ -512,9 +526,7 @@ function responder(indice) {
 
         quizResultado.textContent =
             "✕ Errou!";
-
     }
-
 
     setTimeout(() => {
 
@@ -533,7 +545,6 @@ function responder(indice) {
         }
 
     }, 1200);
-
 }
 
 
@@ -550,14 +561,12 @@ function finalizarJogo() {
     quizProgresso.innerHTML =
         "🏁 Fim do jogo";
 
-
     quizPergunta.innerHTML = `
         Você fez <strong>${pontos}</strong>
         ponto(s) de ${perguntasJogo.length}.
         <br><br>
         ${mensagemFinal()}
     `;
-
 
     quizResultado.textContent = "";
 
