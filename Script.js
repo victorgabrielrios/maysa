@@ -22,7 +22,7 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCH643YK8iRy24JS2mBnlb_dc9Y83JSTq",
+    apiKey: "AIzaSyDDQmeauYTWB3duFCgwmtdxgQvD3srqGvI",
     authDomain: "site-romantico-663fb.firebaseapp.com",
     projectId: "site-romantico-663fb",
     storageBucket: "site-romantico-663fb.firebasestorage.app",
