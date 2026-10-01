@@ -44,14 +44,20 @@ let usuarioLogado = false;
 
 signInAnonymously(auth)
     .catch((erro) => {
+
         console.error("Erro no login:", erro);
 
-        const status = document.getElementById("statusMensagem");
+        const status =
+            document.getElementById("statusMensagem");
 
         if (status) {
+
             status.textContent =
-                "Não foi possível conectar ao sistema de mensagens.";
+                "Erro Firebase: " +
+                (erro.code || erro.message);
+
         }
+
     });
 
 
@@ -142,7 +148,8 @@ async function enviarMensagem() {
 
 
         status.textContent =
-            "Não foi possível enviar a mensagem.";
+            "Erro Firebase: " +
+            (erro.code || erro.message);
 
     }
 
@@ -241,7 +248,8 @@ async function carregarMensagens() {
 
 
         lista.innerHTML =
-            "Não foi possível carregar as mensagens.";
+            "Erro Firebase: " +
+            (erro.code || erro.message);
 
     }
 
