@@ -164,3 +164,70 @@ document.addEventListener(
 
     }
 );
+
+
+// ===============================
+// MODO NOTURNO
+// ===============================
+
+const botaoNoturno =
+    document.getElementById("botaoNoturno");
+
+
+if (botaoNoturno) {
+
+    // Verifica se o modo noturno estava ativado
+    if (
+        localStorage.getItem("modoNoturno") === "ativado"
+    ) {
+
+        document.body.classList.add(
+            "modo-noturno"
+        );
+
+        botaoNoturno.textContent =
+            "☀️";
+
+    }
+
+
+    // Ativa/desativa o modo noturno
+    botaoNoturno.addEventListener(
+        "click",
+        () => {
+
+            document.body.classList.toggle(
+                "modo-noturno"
+            );
+
+
+            if (
+                document.body.classList.contains(
+                    "modo-noturno"
+                )
+            ) {
+
+                botaoNoturno.textContent =
+                    "☀️";
+
+                localStorage.setItem(
+                    "modoNoturno",
+                    "ativado"
+                );
+
+            } else {
+
+                botaoNoturno.textContent =
+                    "🌙";
+
+                localStorage.setItem(
+                    "modoNoturno",
+                    "desativado"
+                );
+
+            }
+
+        }
+    );
+
+}
