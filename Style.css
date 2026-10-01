@@ -1154,3 +1154,120 @@ footer small {
     }
 
    }
+/* =========================
+   MODO NOTURNO
+========================= */
+
+.botao-noturno {
+    position: fixed;
+
+    top: 20px;
+    right: 20px;
+
+    width: 50px;
+    height: 50px;
+
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    z-index: 9999;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.25);
+
+    transition: 0.3s;
+}
+
+.botao-noturno:hover {
+    transform: scale(1.08);
+}
+
+
+/* =========================
+   TEMA ESCURO
+========================= */
+
+body.modo-noturno {
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(100, 40, 120, 0.25),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(60, 30, 100, 0.25),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #09000d,
+            #170018,
+            #10001c,
+            #050008
+        );
+}
+
+
+/* Cards no modo noturno */
+
+body.modo-noturno .inicio-card,
+body.modo-noturno .card,
+body.modo-noturno .frase,
+body.modo-noturno .mensagens-card,
+body.modo-noturno .quiz-card,
+body.modo-noturno .final-card {
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(40, 15, 45, 0.75),
+            rgba(25, 10, 35, 0.75)
+        );
+
+    border-color: rgba(255, 255, 255, 0.22);
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Caixas internas */
+
+body.modo-noturno .qualidade,
+body.modo-noturno .frase-box,
+body.modo-noturno #mensagemMaysa,
+body.modo-noturno .mensagem-enviada,
+body.modo-noturno .quiz-opcao {
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Botão */
+
+body.modo-noturno .botao-noturno {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* Transição suave */
+
+body {
+    transition:
+        background 0.5s ease,
+        color 0.5s ease;
+}
