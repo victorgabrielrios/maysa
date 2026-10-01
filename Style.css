@@ -1440,3 +1440,36 @@ body.modo-noturno .carta-card {
     }
 
 }
+/* =========================
+   CORREÇÃO DAS MENSAGENS
+========================= */
+
+.mensagens-card {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+#listaMensagens {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.mensagem-enviada {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.mensagem-texto {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    white-space: normal !important;
+}
