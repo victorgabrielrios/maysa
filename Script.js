@@ -400,8 +400,6 @@ const perguntas = [
     }
 ];
 
-let perguntaAtual = 0;
-let pontuacao = 0;
 
 const quizPergunta = document.getElementById("quizPergunta");
 const quizOpcoes = document.getElementById("quizOpcoes");
@@ -524,9 +522,6 @@ quizBotao.addEventListener("click", iniciarJogo);
 // VARIÁVEIS DO JOGO
 // ===============================
 
-let perguntaAtual = 0;
-let pontos = 0;
-let vidas = 3;
 
 
 // ===============================
