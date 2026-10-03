@@ -248,98 +248,109 @@ window.enviarMensagem =
 // ======================= JOGO ==========================
 // ======================================================
 
-const perguntasJogo = [
+
+        const perguntasJogo = [
 
     {
         pergunta:
-            "Qual planeta possui o dia mais longo do Sistema Solar?",
+            "Qual planeta do Sistema Solar possui rotação retrógrada, girando em sentido contrário ao da maioria dos outros planetas?",
 
         opcoes:
-            ["Mercúrio", "Vênus", "Marte", "Júpiter"],
+            ["Marte", "Vênus", "Júpiter", "Mercúrio"],
 
         correta: 1
     },
 
     {
         pergunta:
-            "Em qual camada da atmosfera ocorre a maior parte dos fenômenos meteorológicos?",
+            "Qual é o único país completamente cercado pelo território da África do Sul?",
 
         opcoes:
-            ["Estratosfera", "Mesosfera", "Troposfera", "Termosfera"],
-
-        correta: 2
-    },
-
-    {
-        pergunta:
-            "Qual destes países NÃO faz parte da América do Sul?",
-
-        opcoes:
-            ["Suriname", "Guiana", "Panamá", "Paraguai"],
-
-        correta: 2
-    },
-
-    {
-        pergunta:
-            "Qual elemento químico possui o símbolo W?",
-
-        opcoes:
-            ["Tungstênio", "Titânio", "Tálio", "Tório"],
-
-        correta: 0
-    },
-
-    {
-        pergunta:
-            "Na mitologia grega, quem era o deus dos mares?",
-
-        opcoes:
-            ["Ares", "Hades", "Poseidon", "Hermes"],
-
-        correta: 2
-    },
-
-    {
-        pergunta:
-            "Qual é o maior órgão do corpo humano?",
-
-        opcoes:
-            ["Fígado", "Pulmão", "Intestino", "Pele"],
-
-        correta: 3
-    },
-
-    {
-        pergunta:
-            "Qual destes números é primo?",
-
-        opcoes:
-            ["91", "87", "83", "81"],
-
-        correta: 2
-    },
-
-    {
-        pergunta:
-            "Qual país é conhecido por ter a cidade de Petra?",
-
-        opcoes:
-            ["Egito", "Jordânia", "Turquia", "Líbano"],
+            ["Botsuana", "Lesoto", "Eswatini", "Namíbia"],
 
         correta: 1
     },
 
     {
         pergunta:
-            "Quem escreveu Dom Quixote?",
+            "Qual elemento químico possui número atômico 26?",
+
+        opcoes:
+            ["Cobre", "Ferro", "Zinco", "Níquel"],
+
+        correta: 1
+    },
+
+    {
+        pergunta:
+            "Em que ano foi assinado o Tratado de Tordesilhas?",
+
+        opcoes:
+            ["1492", "1494", "1500", "1517"],
+
+        correta: 1
+    },
+
+    {
+        pergunta:
+            "Qual é a capital do Cazaquistão?",
+
+        opcoes:
+            ["Almaty", "Tashkent", "Astana", "Bishkek"],
+
+        correta: 2
+    },
+
+    {
+        pergunta:
+            "Qual camada da atmosfera contém a maior concentração de ozônio?",
+
+        opcoes:
+            ["Troposfera", "Estratosfera", "Mesosfera", "Exosfera"],
+
+        correta: 1
+    },
+
+    {
+        pergunta:
+            "Qual foi a civilização responsável pela criação do sistema de escrita conhecido como cuneiforme?",
+
+        opcoes:
+            ["Egípcios", "Romanos", "Sumérios", "Gregos"],
+
+        correta: 2
+    },
+
+    {
+        pergunta:
+            "Qual é o resultado de 17²?",
+
+        opcoes:
+            ["279", "289", "297", "307"],
+
+        correta: 1
+    },
+
+    {
+        pergunta:
+            "Qual é o maior vulcão conhecido do Sistema Solar?",
+
+        opcoes:
+            ["Etna", "Mauna Loa", "Olympus Mons", "Krakatoa"],
+
+        correta: 2
+    },
+
+    {
+        pergunta:
+            "Quem escreveu a obra 'O Príncipe'?",
 
         opcoes:
             [
-                "Miguel de Cervantes",
-                "William Shakespeare",
-                "Dante Alighieri",
-                "Victor Hugo"
+                "Maquiavel",
+                "Platão",
+                "Aristóteles",
+                "Dante Alighieri"
             ],
 
         correta: 0
@@ -347,94 +358,64 @@ const perguntasJogo = [
 
     {
         pergunta:
-            "Qual é o menor osso do corpo humano?",
+            "Qual protocolo é tradicionalmente associado ao código de erro 404 na internet?",
 
         opcoes:
-            ["Estribo", "Fêmur", "Martelo", "Rádio"],
-
-        correta: 0
-    },
-
-    {
-        pergunta:
-            "Se 3 máquinas produzem 3 peças em 3 minutos, quantas peças 9 máquinas produzem em 9 minutos?",
-
-        opcoes:
-            ["9", "18", "27", "81"],
-
-        correta: 2
-    },
-
-    {
-        pergunta:
-            "Qual é a capital da Austrália?",
-
-        opcoes:
-            ["Sydney", "Melbourne", "Canberra", "Perth"],
-
-        correta: 2
-    },
-
-    {
-        pergunta:
-            "Qual destes animais é um mamífero?",
-
-        opcoes:
-            ["Pinguim", "Morcego", "Crocodilo", "Tubarão"],
+            ["FTP", "HTTP", "SMTP", "DNS"],
 
         correta: 1
     },
 
     {
         pergunta:
-            "Qual linguagem é conhecida por usar a estrutura if para criar condições?",
+            "Qual organela celular é conhecida principalmente por produzir ATP através da respiração celular?",
 
         opcoes:
-            ["HTML", "CSS", "JavaScript", "JSON"],
+            ["Ribossomo", "Lisossomo", "Mitocôndria", "Complexo de Golgi"],
 
         correta: 2
     },
 
     {
         pergunta:
-            "Qual é o resultado de 2⁵ × 2²?",
+            "Qual artista pintou a obra 'Guernica'?",
 
         opcoes:
-            ["32", "64", "128", "256"],
+            ["Salvador Dalí", "Pablo Picasso", "Van Gogh", "Claude Monet"],
+
+        correta: 1
+    },
+
+    {
+        pergunta:
+            "Qual é aproximadamente a aceleração da gravidade na superfície da Terra?",
+
+        opcoes:
+            ["2,8 m/s²", "5,4 m/s²", "9,8 m/s²", "15,2 m/s²"],
 
         correta: 2
     },
 
     {
         pergunta:
-            "Qual civilização construiu Machu Picchu?",
+            "Qual destes países NÃO possui território banhado pelo Mar Mediterrâneo?",
 
         opcoes:
-            ["Maias", "Astecas", "Incas", "Egípcios"],
+            ["Itália", "Grécia", "Portugal", "Espanha"],
 
         correta: 2
     },
 
     {
         pergunta:
-            "Qual é o único número que é simultaneamente par e primo?",
-
-        opcoes:
-            ["0", "1", "2", "4"],
-
-        correta: 2
-    },
-
-    {
-        pergunta:
-            "Qual destes filmes pertence ao universo de O Senhor dos Anéis?",
+            "Se todos os Bloops são Razzies e nenhum Razzie é Lazzie, o que podemos concluir?",
 
         opcoes:
             [
-                "As Crônicas de Nárnia",
-                "A Sociedade do Anel",
-                "Eragon",
-                "Stardust"
+                "Todo Bloop é Lazzie",
+                "Nenhum Bloop é Lazzie",
+                "Todo Lazzie é Bloop",
+                "Alguns Bloops são Lazzies"
             ],
 
         correta: 1
@@ -442,25 +423,40 @@ const perguntasJogo = [
 
     {
         pergunta:
-            "Qual é aproximadamente a velocidade da luz no vácuo?",
+            "Qual é o número mínimo de movimentos necessários para resolver a Torre de Hanói com 3 discos?",
 
         opcoes:
-            [
-                "30 mil km/s",
-                "300 mil km/s",
-                "3 milhões km/s",
-                "30 milhões km/s"
-            ],
+            ["5", "6", "7", "8"],
+
+        correta: 2
+    },
+
+    {
+        pergunta:
+            "Qual destes números é divisível simultaneamente por 3, 4 e 5?",
+
+        opcoes:
+            ["40", "50", "60", "70"],
+
+        correta: 2
+    },
+
+    {
+        pergunta:
+            "Na Segunda Guerra Mundial, qual país foi invadido pela Alemanha em 1939, dando início ao conflito na Europa?",
+
+        opcoes:
+            ["França", "Polônia", "Bélgica", "Noruega"],
 
         correta: 1
     },
 
     {
         pergunta:
-            "Se você ultrapassa a pessoa que está em segundo lugar em uma corrida, em qual posição você fica?",
+            "Um relógio marca exatamente 3 horas. Qual é o menor ângulo entre os ponteiros?",
 
         opcoes:
-            ["Primeiro", "Segundo", "Terceiro", "Quarto"],
+            ["60°", "90°", "120°", "180°"],
 
         correta: 1
     }
