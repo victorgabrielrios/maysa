@@ -409,22 +409,251 @@ const perguntasJogo = [
     },
 
     {
-        pergunta:
-            "Um fazendeiro precisa atravessar um rio com uma raposa, uma galinha e um saco de milho. Ele só pode levar um deles por vez. Qual deve ser a ordem correta?",
+// =========================
+// JOGO — 20 PERGUNTAS
+// =========================
 
-        opcoes: [
-            "Galinha → raposa → milho",
-            "Raposa → galinha → milho",
-            "Galinha → milho → raposa",
-            "Milho → raposa → galinha"
-        ],
-
+const perguntas = [
+    {
+        pergunta: "Qual planeta possui o dia mais longo do Sistema Solar?",
+        opcoes: ["Mercúrio", "Vênus", "Marte", "Júpiter"],
+        correta: 1
+    },
+    {
+        pergunta: "Em qual camada da atmosfera ocorre a maior parte dos fenômenos meteorológicos?",
+        opcoes: ["Estratosfera", "Mesosfera", "Troposfera", "Termosfera"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual destes países NÃO faz parte da América do Sul?",
+        opcoes: ["Suriname", "Guiana", "Panamá", "Paraguai"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual elemento químico possui o símbolo W?",
+        opcoes: ["Tungstênio", "Titânio", "Tálio", "Tório"],
         correta: 0
-    }
+    },
+    {
+        pergunta: "Na mitologia grega, quem era o deus dos mares?",
+        opcoes: ["Ares", "Hades", "Poseidon", "Hermes"],
+        correta: 2
+    },
 
+    {
+        pergunta: "Qual é o maior órgão do corpo humano?",
+        opcoes: ["Fígado", "Pulmão", "Intestino", "Pele"],
+        correta: 3
+    },
+    {
+        pergunta: "Qual destes números é primo?",
+        opcoes: ["91", "87", "83", "81"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual país é conhecido por ter a cidade de Petra?",
+        opcoes: ["Egito", "Jordânia", "Turquia", "Líbano"],
+        correta: 1
+    },
+    {
+        pergunta: "Quem escreveu 'Dom Quixote'?",
+        opcoes: [
+            "Miguel de Cervantes",
+            "William Shakespeare",
+            "Dante Alighieri",
+            "Victor Hugo"
+        ],
+        correta: 0
+    },
+    {
+        pergunta: "Qual é o menor osso do corpo humano?",
+        opcoes: ["Estribo", "Fêmur", "Martelo", "Rádio"],
+        correta: 0
+    },
+
+    {
+        pergunta: "Se 3 máquinas produzem 3 peças em 3 minutos, quantas peças 9 máquinas produzem em 9 minutos?",
+        opcoes: ["9", "18", "27", "81"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é a capital da Austrália?",
+        opcoes: ["Sydney", "Melbourne", "Canberra", "Perth"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual destes animais é um mamífero?",
+        opcoes: ["Pinguim", "Morcego", "Crocodilo", "Tubarão"],
+        correta: 1
+    },
+    {
+        pergunta: "Qual linguagem é conhecida por usar a estrutura 'if' para criar condições?",
+        opcoes: ["HTML", "CSS", "JavaScript", "JSON"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é o resultado de 2⁵ × 2²?",
+        opcoes: ["32", "64", "128", "256"],
+        correta: 2
+    },
+
+    {
+        pergunta: "Qual civilização construiu Machu Picchu?",
+        opcoes: ["Maias", "Astecas", "Incas", "Egípcios"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é o único número que é simultaneamente par e primo?",
+        opcoes: ["0", "1", "2", "4"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual destes filmes pertence ao universo de 'O Senhor dos Anéis'?",
+        opcoes: [
+            "As Crônicas de Nárnia",
+            "A Sociedade do Anel",
+            "Eragon",
+            "Stardust"
+        ],
+        correta: 1
+    },
+    {
+        pergunta: "Qual é aproximadamente a velocidade da luz no vácuo?",
+        opcoes: [
+            "30 mil km/s",
+            "300 mil km/s",
+            "3 milhões km/s",
+            "30 milhões km/s"
+        ],
+        correta: 1
+    },
+    {
+        pergunta: "Se você ultrapassa a pessoa que está em segundo lugar em uma corrida, em qual posição você fica?",
+        opcoes: ["Primeiro", "Segundo", "Terceiro", "Quarto"],
+        correta: 1
+    }
 ];
 
+let perguntaAtual = 0;
+let pontuacao = 0;
 
+const quizPergunta = document.getElementById("quizPergunta");
+const quizOpcoes = document.getElementById("quizOpcoes");
+const quizResultado = document.getElementById("quizResultado");
+const quizBotao = document.getElementById("quizBotao");
+const quizProgresso = document.getElementById("quizProgresso");
+
+function iniciarJogo() {
+
+    perguntaAtual = 0;
+    pontuacao = 0;
+
+    quizBotao.style.display = "none";
+    quizResultado.innerText = "";
+
+    mostrarPergunta();
+}
+
+function mostrarPergunta() {
+
+    const atual = perguntas[perguntaAtual];
+
+    quizProgresso.innerText =
+        `Pergunta ${perguntaAtual + 1} de ${perguntas.length}`;
+
+    quizPergunta.innerText = atual.pergunta;
+
+    quizOpcoes.innerHTML = "";
+
+    atual.opcoes.forEach((opcao, indice) => {
+
+        const botao = document.createElement("button");
+
+        botao.className = "quiz-opcao";
+        botao.innerText = opcao;
+
+        botao.onclick = () => verificarResposta(indice);
+
+        quizOpcoes.appendChild(botao);
+    });
+}
+
+function verificarResposta(indice) {
+
+    const atual = perguntas[perguntaAtual];
+
+    const botoes =
+        document.querySelectorAll(".quiz-opcao");
+
+    botoes.forEach(botao => {
+        botao.disabled = true;
+    });
+
+    if (indice === atual.correta) {
+
+        pontuacao++;
+
+        quizResultado.innerText = "✓ Resposta correta!";
+    } else {
+
+        quizResultado.innerText =
+            `✗ Resposta errada! A correta era: ${atual.opcoes[atual.correta]}`;
+    }
+
+    setTimeout(() => {
+
+        perguntaAtual++;
+
+        quizResultado.innerText = "";
+
+        if (perguntaAtual < perguntas.length) {
+
+            mostrarPergunta();
+
+        } else {
+
+            finalizarJogo();
+        }
+
+    }, 1200);
+}
+
+function finalizarJogo() {
+
+    quizOpcoes.innerHTML = "";
+
+    quizProgresso.innerText =
+        "Fim do desafio!";
+
+    quizPergunta.innerText =
+        `Você acertou ${pontuacao} de ${perguntas.length} perguntas.`;
+
+    if (pontuacao === 20) {
+
+        quizResultado.innerText =
+            "🏆 Perfeito! Você acertou todas!";
+
+    } else if (pontuacao >= 15) {
+
+        quizResultado.innerText =
+            "🔥 Excelente resultado!";
+
+    } else if (pontuacao >= 10) {
+
+        quizResultado.innerText =
+            "👏 Bom resultado!";
+
+    } else {
+
+        quizResultado.innerText =
+            "💗 Foi um desafio difícil! Tente novamente.";
+    }
+
+    quizBotao.innerText = "Jogar novamente ♥";
+    quizBotao.style.display = "inline-block";
+}
+
+quizBotao.addEventListener("click", iniciarJogo);
 // ===============================
 // VARIÁVEIS DO JOGO
 // ===============================
