@@ -398,8 +398,6 @@ const perguntas = [
         opcoes: ["Primeiro", "Segundo", "Terceiro", "Quarto"],
         correta: 1
     }
-];
-
 
 const quizPergunta = document.getElementById("quizPergunta");
 const quizOpcoes = document.getElementById("quizOpcoes");
