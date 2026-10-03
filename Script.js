@@ -397,7 +397,6 @@ const perguntas = [
         pergunta: "Se você ultrapassa a pessoa que está em segundo lugar em uma corrida, em qual posição você fica?",
         opcoes: ["Primeiro", "Segundo", "Terceiro", "Quarto"],
         correta: 1
-    }
 
 const quizPergunta = document.getElementById("quizPergunta");
 const quizOpcoes = document.getElementById("quizOpcoes");
